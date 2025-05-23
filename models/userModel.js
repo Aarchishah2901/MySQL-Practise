@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const { sequelize } = require('../config/db'); // import the actual Sequelize instance here
+const { sequelize } = require('../config/db');
 
 const User = sequelize.define('User', {
   id: {
@@ -29,8 +29,8 @@ const User = sequelize.define('User', {
     defaultValue: 'user'
   }
 }, {
-  tableName: 'users',  // specify the table name explicitly (optional but good practice)
-  timestamps: true     // add createdAt and updatedAt automatically
+  tableName: 'users',
+  timestamps: true
 });
 
 module.exports = User;
