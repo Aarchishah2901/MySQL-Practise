@@ -4,12 +4,12 @@ require('dotenv').config();
 
 const opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: process.env.JWT_SECRET
+  secretOrKey: process.env.JWT_SECRET,
 };
 
 module.exports = (passport) => {
   passport.use(
-    new JwtStrategy(options, async (jwt_payload, done) => {
+    new JwtStrategy(opts, async (jwt_payload, done) => {
       try {
         const user = await User.findByPk(jwt_payload.id);
         if (user) {

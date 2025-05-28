@@ -1,4 +1,3 @@
-
 // const express = require('express');
 // const passport = require('passport');
 // const router = express.Router();
@@ -14,12 +13,7 @@
 
 const express = require('express');
 const router = express.Router();
-const {
-  getAllUsers,
-  getUserById,
-  updateUser,
-  deleteUser
-} = require('../controllers/userController');
+const { getAllUsers, getUserById, updateUser, deleteUser } = require('../controllers/userController');
 const authMiddleware = require('../middleware/authMiddleware');
 
 router.get('/users', getAllUsers);
