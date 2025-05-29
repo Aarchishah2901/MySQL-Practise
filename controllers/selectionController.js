@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const Selection = require('../models/selectionModel');
 
 // Create
@@ -11,9 +12,27 @@ exports.createSelection = async (req, res) => {
 };
 
 // Get all
+// exports.getAllSelections = async (req, res) => {
+//   try {
+//     const selections = await Selection.findAll();
+//     res.json(selections);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
+
 exports.getAllSelections = async (req, res) => {
   try {
-    const selections = await Selection.findAll();
+    const { applicant_name } = req.query;
+    const where = {};
+
+    if (applicant_name) {
+      where.applicant_name = {
+        [Op.iLike]: `%${applicant_name}%`
+      };
+    }
+
+    const selections = await Selection.findAll({ where });
     res.json(selections);
   } catch (error) {
     res.status(500).json({ error: error.message });
