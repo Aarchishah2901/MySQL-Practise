@@ -11,6 +11,7 @@ const jobRequirementRoutes = require('./routes/jobRequirementRoutes');
 const jobApplicationRoutes = require('./routes/jobApplicationRoutes');
 const attendanceRoutes = require('./routes/attendanceRoutes');
 const selectionRoutes = require('./routes/selectionRoutes');
+const jobRequestRoutes = require('./routes/jobRequestRoutes');
 const cors = require("cors");
 require('./config/passport')(passport); // Passport config
 
@@ -20,7 +21,7 @@ const port = process.env.PORT || 5000;
 // Middleware
 app.use(cors({
   origin: "http://localhost:3000",
-  credentials: true, // Allow cookies
+  credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
@@ -54,6 +55,7 @@ app.use('/api/job-requirements', jobRequirementRoutes);
 app.use('/api/job-applications', jobApplicationRoutes);
 app.use('/api/attendances', attendanceRoutes);
 app.use('/api/selections', selectionRoutes);
+app.use('/api/job-requests', jobRequestRoutes);
 
 const startServer = async () => {
   try {
