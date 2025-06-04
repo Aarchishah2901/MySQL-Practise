@@ -37,34 +37,18 @@ exports.getJobRequestById = async (req, res) => {
   }
 };
 
-// Update job request status and message (HR posts selection/rejection)
-// exports.updateJobRequestStatus = async (req, res) => {
-//   try {
-//     const { status } = req.body;
-//     const request = await JobRequest.findByPk(req.params.id);
-//     if (!request) return res.status(404).json({ message: "Not found" });
-
-//     let message = "";
-//     if (status === "Selected") {
-//       message = "Congratulations! You are hired.";
-//     } else if (status === "Rejected") {
-//       message = "We regret to inform you that you have not been selected.";
-//     } else {
-//       message = "Your application is currently under review.";
-//     }
-
-//     await request.update({ status, message });
-//     res.json(request);
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// };
-
 exports.updateJobRequestStatus = async (req, res) => {
   try {
     const { status } = req.body;
-    const request = await JobRequest.findByPk(req.params.id);
-    if (!request) return res.status(404).json({ message: "Not found" });
+    const id = req.params.id;
+
+    console.log("Updating job request ID:", id);
+
+    const request = await JobRequest.findByPk(id);
+    if (!request) {
+      console.log("No job request found with ID:", id);
+      return res.status(404).json({ message: `JobRequest with ID ${id} not found` });
+    }
 
     let message = "";
     if (status === "Selected") {
@@ -76,8 +60,9 @@ exports.updateJobRequestStatus = async (req, res) => {
     }
 
     await request.update({ status, message });
-    res.json(request);
+    return res.json({ status: request.status, message: request.message });
   } catch (err) {
+    console.error("Error updating status:", err);
     res.status(500).json({ error: err.message });
   }
 };
