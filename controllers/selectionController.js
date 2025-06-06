@@ -83,3 +83,25 @@ exports.deleteSelection = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+//User side selection status
+exports.getUserSelectionStatus = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const selection = await Selection.findOne({
+      where: { job_applicant_id: userId },
+      attributes: ['id', 'applicant_name', 'selection_status', 'message_to_user', 'createdAt', 'updatedAt'],
+      order: [['createdAt', 'DESC']],
+    });
+
+    if (!selection) {
+      return res.status(404).json({ message: 'No selection found' });
+    }
+
+    res.status(200).json({ data: selection });
+  } catch (error) {
+    console.error('Selection fetch error:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};

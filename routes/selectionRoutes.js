@@ -7,5 +7,6 @@ router.get('/', selectionController.getAllSelections);
 router.get('/:id', selectionController.getSelectionById);
 router.put('/:id', selectionController.updateSelection);
 router.delete('/:id', selectionController.deleteSelection);
+router.get('/user/:userId', selectionController.getUserSelectionStatus);
 
 module.exports = router;
