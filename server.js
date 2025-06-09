@@ -12,6 +12,7 @@ const jobApplicationRoutes = require('./routes/jobApplicationRoutes');
 const attendanceRoutes = require('./routes/attendanceRoutes');
 const selectionRoutes = require('./routes/selectionRoutes');
 const jobRequestRoutes = require('./routes/jobRequestRoutes');
+const userDetailsRoutes = require('./routes/userDetailsRoutes');
 const cors = require("cors");
 require('./config/passport')(passport); // Passport config
 
@@ -56,6 +57,7 @@ app.use('/api/job-applications', jobApplicationRoutes);
 app.use('/api/attendances', attendanceRoutes);
 app.use('/api/selections', selectionRoutes);
 app.use('/api/job-requests', jobRequestRoutes);
+app.use('/api/user-details', userDetailsRoutes);
 
 const startServer = async () => {
   try {
