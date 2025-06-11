@@ -10,7 +10,7 @@ const UserDetails = sequelize.define("UserDetails", {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  phonenumber: {
+  department: {
     type: DataTypes.STRING,
     allowNull: true,
   },
@@ -27,7 +27,7 @@ const UserDetails = sequelize.define("UserDetails", {
     allowNull: false,
   },
 }, {
-  tableName: "user_details",
+  tableName: "user_detail",
   timestamps: false
 });
 
