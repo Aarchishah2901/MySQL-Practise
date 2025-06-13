@@ -54,11 +54,11 @@ const JobRequest = sequelize.define("JobRequest", {
   },
   status: {
     type: DataTypes.ENUM("Pending", "Selected", "Rejected"),
-    allowNull: true, // ✅ no default, HR will set it later
+    allowNull: true, //no default, HR will set it later
   },
   message: {
     type: DataTypes.STRING,
-    allowNull: true, // ✅ HR will write custom message
+    allowNull: true, //HR will write custom message
   },
 });
 

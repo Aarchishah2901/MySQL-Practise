@@ -39,19 +39,42 @@ exports.getAllSelections = async (req, res) => {
   }
 };
 
-// Get one
+
+// exports.getSelectionById = async (req, res) => {
+//   try {
+//     const selection = await Selection.findByPk(req.params.id);
+//     if (selection) {
+//       console.log("selection", selection);
+      
+//       res.json(selection);
+//     } else {
+//       res.status(404).json({ error: 'Selection not found' });
+//     }
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
 exports.getSelectionById = async (req, res) => {
+  const userId = req.params.userId;
+  console.log("userId from URL params:", userId);
+
+  if (!userId) {
+    return res.status(400).json({ error: "userId not provided" });
+  }
+
   try {
-    const selection = await Selection.findByPk(req.params.id);
+    const selection = await Selection.findOne({ where: { job_applicant_id: userId } });
     if (selection) {
-      res.json(selection);
+      return res.json(selection);
     } else {
-      res.status(404).json({ error: 'Selection not found' });
+      return res.status(404).json({ error: "Selection not found" });
     }
   } catch (error) {
+    console.error("Error fetching selection:", error);
     res.status(500).json({ error: error.message });
   }
 };
+
 
 // Update
 exports.updateSelection = async (req, res) => {
@@ -85,23 +108,24 @@ exports.deleteSelection = async (req, res) => {
 };
 
 //User side selection status
-exports.getUserSelectionStatus = async (req, res) => {
-  const { userId } = req.params;
+// exports.getUserSelectionStatus = async (req, res) => {
+//   const { userId } = req.params;
 
-  try {
-    const selection = await Selection.findOne({
-      where: { job_applicant_id: userId },
-      attributes: ['id', 'applicant_name', 'selection_status', 'message_to_user', 'createdAt', 'updatedAt'],
-      order: [['createdAt', 'DESC']],
-    });
+//   try {
+//     const selection = await Selection.findOne({
+//       where: { job_applicant_id: userId },
+//       attributes: ['id', 'applicant_name', 'selection_status', 'message_to_user', 'createdAt', 'updatedAt'],
+//       order: [['createdAt', 'DESC']],
+//     });
 
-    if (!selection) {
-      return res.status(404).json({ message: 'No selection found' });
-    }
+//     if (!selection) {
+//       console.log("Selection status", selection);  
+//       return res.status(404).json({ message: 'No selection found' });
+//     }
 
-    res.status(200).json({ data: selection });
-  } catch (error) {
-    console.error('Selection fetch error:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-};
+//     res.status(200).json({ data: selection });
+//   } catch (error) {
+//     console.error('Selection fetch error:', error);
+//     res.status(500).json({ message: 'Internal server error' });
+//   }
+// };

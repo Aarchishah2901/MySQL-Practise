@@ -37,7 +37,7 @@ exports.login = async (req, res) => {
     const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, {
       expiresIn: '1d'
     });
-    
+    console.log('Setting userId cookie:', user.id);
     return res
       .cookie("token", token, { httpOnly: true, secure: true, sameSite: 'strict' })
       .status(200)
