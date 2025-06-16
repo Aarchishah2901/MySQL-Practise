@@ -14,13 +14,13 @@ const express = require('express');
 const router = express.Router();
 const jobRequestController = require('../controllers/jobRequestController');
 
-// ✅ HR gets all job applications
+//HR gets all job applications
 router.get('/', jobRequestController.getAllJobRequests);
 
-// ✅ HR gets a single application by ID
+//HR gets a single application by ID
 router.get('/:id', jobRequestController.getJobRequestById);
 
-// ✅ HR posts selection or rejection with message
+//HR posts selection or rejection with message
 router.post('/:id/status', jobRequestController.postJobRequestStatus);
 
 module.exports = router;

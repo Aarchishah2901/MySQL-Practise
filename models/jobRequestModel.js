@@ -34,7 +34,7 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/db');
 
-const JobRequest = sequelize.define("JobRequest", {
+const JobRequests = sequelize.define("JobRequest", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -62,4 +62,4 @@ const JobRequest = sequelize.define("JobRequest", {
   },
 });
 
-module.exports = JobRequest;
+module.exports = JobRequests;

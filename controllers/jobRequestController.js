@@ -83,7 +83,7 @@
 
 const JobRequest = require('../models/jobRequestModel');
 
-// ✅ HR: Get all job applications
+//HR: Get all job applications
 exports.getAllJobRequests = async (req, res) => {
   try {
     const requests = await JobRequest.findAll();
@@ -93,7 +93,7 @@ exports.getAllJobRequests = async (req, res) => {
   }
 };
 
-// ✅ HR: Get a specific application by ID
+//HR: Get a specific application by ID
 exports.getJobRequestById = async (req, res) => {
   try {
     const request = await JobRequest.findByPk(req.params.id);
@@ -104,7 +104,7 @@ exports.getJobRequestById = async (req, res) => {
   }
 };
 
-// ✅ HR: Post selection result with custom message
+//HR: Post selection result with custom message
 exports.postJobRequestStatus = async (req, res) => {
   try {
     const { status, message } = req.body;
@@ -115,7 +115,7 @@ exports.postJobRequestStatus = async (req, res) => {
       return res.status(404).json({ message: `Application with ID ${id} not found` });
     }
 
-    // ✅ Update only status and message
+    //Update only status and message
     await request.update({ status, message });
 
     res.json({ success: true, status: request.status, message: request.message });

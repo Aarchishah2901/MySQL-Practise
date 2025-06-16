@@ -3,17 +3,40 @@ const JobApplication = require('../models/jobApplicationModel');
 // Create
 exports.createJobApplication = async (req, res) => {
   try {
-    const newApp = await JobApplication.create(req.body);
+    const { userId, job_requirement_id, applicant_name, email, phone_number, qualification, experience } = req.body;
+
+    // Validate required fields
+    if (!userId || userId === 0) {
+      return res.status(400).json({ error: "Invalid or missing userId." });
+    }
+
+    if (!job_requirement_id || !applicant_name || !email || !phone_number || !qualification || !experience) {
+      return res.status(400).json({ error: "Please provide all required fields." });
+    }
+
+    // Create new job application
+    const newApp = await JobApplication.create({
+      userId,
+      job_requirement_id,
+      applicant_name,
+      email,
+      phone_number,
+      qualification,
+      experience
+    });
+
     res.status(201).json(newApp);
+
   } catch (error) {
+    console.error("Error creating job application:", error.message);
     res.status(500).json({ error: error.message });
   }
 };
-
 // Read all
 exports.getAllJobApplications = async (req, res) => {
   try {
-    const apps = await JobApplication.findAll();
+  const { userId } = req.params;
+    const apps = await JobApplication.findAll();  
     res.json(apps);
   } catch (error) {
     res.status(500).json({ error: error.message });

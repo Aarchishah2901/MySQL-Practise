@@ -1,5 +1,6 @@
 const { Op } = require("sequelize");
 const Selection = require('../models/selectionModel');
+const { sequelize } = require('../config/db');
 
 // Create
 exports.createSelection = async (req, res) => {
@@ -10,12 +11,34 @@ exports.createSelection = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
-// Get all
-// exports.getAllSelections = async (req, res) => {
+// exports.createSelection = async (req, res) => {
 //   try {
-//     const selections = await Selection.findAll();
-//     res.json(selections);
+//     const {
+//       applicant_name,
+//       userId,
+//       job_applicant_id,
+//       selection_status,
+//       message_to_user
+//     } = req.body;
+
+//     // Validate userId and applicant_name
+//     if (!userId || userId === 0) {
+//       return res.status(400).json({ error: 'Valid userId is required' });
+//     }
+
+//     if (!applicant_name) {
+//       return res.status(400).json({ error: 'applicant_name is required' });
+//     }
+
+//     const newSelection = await Selection.create({
+//       applicant_name,
+//       userId,
+//       job_applicant_id,
+//       selection_status,
+//       message_to_user
+//     });
+
+//     res.status(201).json(newSelection);
 //   } catch (error) {
 //     res.status(500).json({ error: error.message });
 //   }
@@ -39,17 +62,19 @@ exports.getAllSelections = async (req, res) => {
   }
 };
 
-
 // exports.getSelectionById = async (req, res) => {
-//   try {
-//     const selection = await Selection.findByPk(req.params.id);
-//     if (selection) {
-//       console.log("selection", selection);
-      
-//       res.json(selection);
-//     } else {
-//       res.status(404).json({ error: 'Selection not found' });
+// try {
+//     const { applicant_name } = req.query;
+//     const where = {};
+
+//     if (applicant_name) {
+//       where.applicant_name = {
+//         [Op.iLike]: `%${applicant_name}%`
+//       };
 //     }
+
+//     const selections = await Selection.findOne({ where });
+//     res.json(selections);
 //   } catch (error) {
 //     res.status(500).json({ error: error.message });
 //   }
@@ -57,13 +82,20 @@ exports.getAllSelections = async (req, res) => {
 exports.getSelectionById = async (req, res) => {
   const userId = req.params.userId;
   console.log("userId from URL params:", userId);
-
+ 
   if (!userId) {
     return res.status(400).json({ error: "userId not provided" });
   }
-
+ 
   try {
-    const selection = await Selection.findOne({ where: { job_applicant_id: userId } });
+    const [selection] = await sequelize.query(
+      'SELECT * FROM Selections WHERE job_applicant_id = :userId LIMIT 1',
+      {
+        replacements: { userId },
+        type: sequelize.QueryTypes.SELECT
+      }
+    );
+ 
     if (selection) {
       return res.json(selection);
     } else {
@@ -74,7 +106,6 @@ exports.getSelectionById = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
 
 // Update
 exports.updateSelection = async (req, res) => {

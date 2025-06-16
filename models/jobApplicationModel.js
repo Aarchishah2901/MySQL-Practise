@@ -7,6 +7,10 @@ const JobApplication = sequelize.define('JobApplication', {
     autoIncrement: true,
     primaryKey: true
   },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
   job_requirement_id: {
     type: DataTypes.INTEGER,
     allowNull: false
