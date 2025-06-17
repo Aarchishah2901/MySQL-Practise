@@ -3,20 +3,15 @@ const JobApplication = require('../models/jobApplicationModel');
 // Create
 exports.createJobApplication = async (req, res) => {
   try {
-    const { userId, job_requirement_id, applicant_name, email, phone_number, qualification, experience } = req.body;
+    const { job_requirement_id, applicant_name, email, phone_number, qualification, experience } = req.body;
 
     // Validate required fields
-    if (!userId || userId === 0) {
-      return res.status(400).json({ error: "Invalid or missing userId." });
-    }
-
     if (!job_requirement_id || !applicant_name || !email || !phone_number || !qualification || !experience) {
       return res.status(400).json({ error: "Please provide all required fields." });
     }
 
     // Create new job application
     const newApp = await JobApplication.create({
-      userId,
       job_requirement_id,
       applicant_name,
       email,
@@ -33,10 +28,22 @@ exports.createJobApplication = async (req, res) => {
   }
 };
 // Read all
+// exports.getAllJobApplications = async (req, res) => {
+//   try {
+//   const { userId } = req.params;
+//   console.log(userId);
+//     const apps = await JobApplication.findAll();
+//     res.json(apps);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
 exports.getAllJobApplications = async (req, res) => {
   try {
-  const { userId } = req.params;
-    const apps = await JobApplication.findAll();  
+    const { userId } = req.query; // optional filter
+    const condition = userId ? { where: { userId } } : {};
+
+    const apps = await JobApplication.findAll(condition);
     res.json(apps);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -44,14 +51,28 @@ exports.getAllJobApplications = async (req, res) => {
 };
 
 // Read one
+// exports.getJobApplicationById = async (req, res) => {
+//   try {
+//     const app = await JobApplication.findByPk(req.params.id);
+//     if (app) {
+//       res.json(app);
+//     } else {
+//       res.status(404).json({ error: 'Application not found' });
+//     }
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
 exports.getJobApplicationById = async (req, res) => {
   try {
-    const app = await JobApplication.findByPk(req.params.id);
-    if (app) {
-      res.json(app);
-    } else {
-      res.status(404).json({ error: 'Application not found' });
-    }
+    const { userId } = req.params;
+    console.log('Received userId:', userId);
+
+    const apps = await JobApplication.findAll({
+      where: { userId } // only fetch applications by this user
+    });
+
+    res.json(apps);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

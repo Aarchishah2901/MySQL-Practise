@@ -11,10 +11,10 @@ const Selection = sequelize.define('Selection', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  userId: {
-    type: DataTypes.INTEGER,
-    allowNull: false
-  },
+  // userId: {
+  //   type: DataTypes.INTEGER,
+  //   allowNull: false
+  // },
   job_applicant_id: {
     type: DataTypes.INTEGER,
     allowNull: false

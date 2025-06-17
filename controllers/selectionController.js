@@ -11,38 +11,6 @@ exports.createSelection = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-// exports.createSelection = async (req, res) => {
-//   try {
-//     const {
-//       applicant_name,
-//       userId,
-//       job_applicant_id,
-//       selection_status,
-//       message_to_user
-//     } = req.body;
-
-//     // Validate userId and applicant_name
-//     if (!userId || userId === 0) {
-//       return res.status(400).json({ error: 'Valid userId is required' });
-//     }
-
-//     if (!applicant_name) {
-//       return res.status(400).json({ error: 'applicant_name is required' });
-//     }
-
-//     const newSelection = await Selection.create({
-//       applicant_name,
-//       userId,
-//       job_applicant_id,
-//       selection_status,
-//       message_to_user
-//     });
-
-//     res.status(201).json(newSelection);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
 
 exports.getAllSelections = async (req, res) => {
   try {
