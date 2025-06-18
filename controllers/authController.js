@@ -34,10 +34,10 @@ exports.login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(401).json({ message: 'Invalid credentials' });
 
-    const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, {
+    const token = jwt.sign({ userId: user.userId, role: user.role }, JWT_SECRET, {
       expiresIn: '1d'
     });
-    console.log('Setting userId cookie:', user.id);
+    console.log('Setting userId cookie:', user.userId);
     return res
       .cookie("token", token, { httpOnly: true, secure: true, sameSite: 'strict' })
       .status(200)
@@ -45,7 +45,7 @@ exports.login = async (req, res) => {
         success: true,
         message: "Login successful",
         data: {
-          id: user.id,
+          id: user.userId,
           role: user.role,
           name: user.name,
           email: user.email,

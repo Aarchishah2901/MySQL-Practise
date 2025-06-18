@@ -1,11 +1,20 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/db');
+const User = require('./userModel');
 
 const JobApplication = sequelize.define('JobApplication', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true
+  },
+    userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: User,
+      key: 'userId'
+    },
   },
   job_requirement_id: {
     type: DataTypes.INTEGER,
@@ -35,5 +44,7 @@ const JobApplication = sequelize.define('JobApplication', {
   tableName: 'job_applications',
   timestamps: false
 });
+
+JobApplication.belongsTo(User, {foreignKey: 'userId' });
 
 module.exports = JobApplication;
