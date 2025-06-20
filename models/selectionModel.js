@@ -12,14 +12,14 @@ const Selection = sequelize.define('Selection', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  userId: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: User,
-      key: 'userId'
-    },
-  },
+  // userId: {
+  //   type: DataTypes.INTEGER,
+  //   allowNull: false,
+  //   references: {
+  //     model: User,
+  //     key: 'userId'
+  //   },
+  // },
   job_applicant_id: {
     type: DataTypes.INTEGER,
     allowNull: false
@@ -33,7 +33,5 @@ const Selection = sequelize.define('Selection', {
     allowNull: true
   }
 });
-
-Selection.belongsTo(User, {foreignKey: 'userId' });
 
 module.exports = Selection;

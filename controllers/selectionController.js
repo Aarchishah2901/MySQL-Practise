@@ -5,13 +5,13 @@ const { sequelize } = require('../config/db');
 
 // Create
 exports.createSelection = async (req, res) => {
-  const { userId } = req.body;
+  // const { userId } = req.body;
 
-  // Check if user exists
-  const user = await User.findByPk(userId);
-  if (!user) {
-    return res.status(400).json({ error: `User with ID ${userId} does not exist.` });
-  }
+  // // Check if user exists
+  // const user = await User.findByPk(userId);
+  // if (!user) {
+  //   return res.status(400).json({ error: `User with ID ${userId} does not exist.` });
+  // }
 
   try {
     const newSelection = await Selection.create(req.body);
@@ -41,22 +41,44 @@ exports.getAllSelections = async (req, res) => {
 };
 
 // Get by userId (foreign key)
-exports.getSelectionById = async (req, res) => {
-  const userId = req.params.userId;
+// exports.getSelectionById = async (req, res) => {
+//   const userId = req.params.userId;
 
-  if (!userId) {
-    console.log(userId);
+//   if (!userId) {
+//     console.log(userId);
     
-    return res.status(400).json({ error: "userId not provided" });
+//     return res.status(400).json({ error: "userId not provided" });
+//   }
+
+//   try {
+//     const selection = await Selection.findOne({
+//       where: { userId },
+//       include: {
+//         model: User,
+//         attributes: ['userId', 'name', 'email']
+//       }
+//     });
+
+//     if (selection) {
+//       return res.json(selection);
+//     } else {
+//       return res.status(404).json({ error: "Selection not found" });
+//     }
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
+
+exports.getSelectionById = async (req, res) => {
+  const jobApplicantId = req.params.userId;
+
+  if (!jobApplicantId) {
+    return res.status(400).json({ error: "job_applicant_id not provided" });
   }
 
   try {
     const selection = await Selection.findOne({
-      where: { userId },
-      include: {
-        model: User,
-        attributes: ['userId', 'name', 'email']
-      }
+      where: { job_applicant_id: jobApplicantId }
     });
 
     if (selection) {
