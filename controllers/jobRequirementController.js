@@ -1,4 +1,5 @@
 const JobRequirement = require('../models/jobRequirementModel');
+const { sequelize } = require("../config/db");
 
 exports.createJobRequirement = async (req, res) => {
   try {
@@ -20,9 +21,24 @@ exports.createJobRequirement = async (req, res) => {
   }
 };
 
+// exports.getAllJobRequirements = async (req, res) => {
+//   try {
+//     const jobs = await JobRequirement.findAll();
+//     res.json(jobs);
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// };
+
 exports.getAllJobRequirements = async (req, res) => {
-  try {
-    const jobs = await JobRequirement.findAll();
+ try {
+    const [jobs] = await sequelize.query(`
+      SELECT J.*, IFNULL(MIN(S.selection_status), 'Pending') AS selection_status FROM 
+      job_requirements J
+      LEFT JOIN job_applications JA ON JA.job_requirement_id = J.id
+      LEFT JOIN Selections S ON S.job_applicant_id = JA.id
+      GROUP BY J.id
+    `);
     res.json(jobs);
   } catch (err) {
     res.status(500).json({ error: err.message });
