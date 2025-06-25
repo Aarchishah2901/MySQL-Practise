@@ -51,27 +51,15 @@ exports.getAllJobApplications = async (req, res) => {
 };
 
 // Read one
-// exports.getJobApplicationById = async (req, res) => {
-//   try {
-//     const app = await JobApplication.findByPk(req.params.id);
-//     if (app) {
-//       res.json(app);
-//     } else {
-//       res.status(404).json({ error: 'Application not found' });
-//     }
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
-exports.getJobApplicationById = async (req, res) => {
+exports.getJobApplicationsByEmail = async (req, res) => {
   try {
-    const { userId } = req.params;
-    console.log('Received userId:', userId);
-
+    const { email } = req.query;
+    if (!email) {
+      return res.status(400).json({ error: "Email is required." });
+    }
     const apps = await JobApplication.findAll({
-      where: { userId } // only fetch applications by this user
+      where: { email }
     });
-
     res.json(apps);
   } catch (error) {
     res.status(500).json({ error: error.message });
