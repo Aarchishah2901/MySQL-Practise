@@ -4,8 +4,8 @@ const selectionController = require('../controllers/selectionController');
 
 router.post('/', selectionController.createSelection);
 router.get('/', selectionController.getAllSelections);
-router.get('/user/:userId', selectionController.getSelectionById);
-router.put('/:id', selectionController.updateSelection);
+router.get('/selection/by-email', selectionController.getSelectionByEmail);
+router.put('/selection/by-email', selectionController.updateSelectionByEmail);
 router.delete('/:id', selectionController.deleteSelection);
 // router.get('/user/:userId', selectionController.getUserSelectionStatus);
 
